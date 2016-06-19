@@ -37,6 +37,8 @@ function solve(args) {
     
     function ReturnSinglesToString(single) {
         switch (+single) {
+            case 0:
+                return "";
             case 1:
                 return 'one';
             case 2:
@@ -146,3 +148,5 @@ solve([501]);
 solve([617]);
 solve([711]);
 solve([999]);
+solve([120]);
+solve([40]);
