@@ -70,7 +70,7 @@ function solve(args) {
             case 3:
                 return "Thirty";
             case 4:
-                return "Fourty";
+                return "Forty";
             case 5:
                 return "Fifty";
             case 6:
