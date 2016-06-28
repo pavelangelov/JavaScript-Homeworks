@@ -1,11 +1,10 @@
 function solve(args) {
-    var params = String(args).split('\n'),
-        len = +params[0],
-        numbers = params[1].split(' ')
+    var len = +args[0],
+        numbers = args[1].split(' ')
                         .map(function (number) {
                             return +number;
                           }),
-        searchedNumber = +params[2];
+        searchedNumber = +args[2];
 
     function countAppears(numbersArr, searchedNum) {
         var number,
@@ -22,4 +21,4 @@ function solve(args) {
     console.log(countAppears(numbers, searchedNumber));
 }
 
-solve('8\n' + '28 6 21 6 -7856 73 73 -56' + '\n73');
+solve(['8', '28 6 21 6 -7856 73 73 -56', '73']);

@@ -1,8 +1,7 @@
 function solve(args) {
     var largersCount = 0,
-        params = String(args).split('\n'),
-        len = +params[0],
-        numbers = params[1].split(' ')
+        len = +args[0],
+        numbers = args[1].split(' ')
                         .map(function (number) {
                             return +number;
                           });
@@ -24,4 +23,4 @@ function solve(args) {
           console.log(largersCount);
 }
 
-solve('6\n-26 -25 -28 31 2 27');
+solve(['6', '-26 -25 -28 31 2 27']);
