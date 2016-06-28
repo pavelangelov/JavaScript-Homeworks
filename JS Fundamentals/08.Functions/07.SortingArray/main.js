@@ -1,10 +1,7 @@
 function solve(args) {
-    var params = String(args).split('\n'),
-        arrLen = +params[0],
-        numbers = params[1].split(' ')
-                            .map(function (number) {
-                                return +number;
-                            });
+    var arrLen = +args[0],
+        numbers = args[1].split(' ')
+                            .map(Number);
                             
     var sortArr = function() {
         var i,
@@ -32,5 +29,5 @@ function solve(args) {
     console.log(numbers.join(' '));
 }
 
-solve('6\n3 4 1 5 2 6');
-solve('10\n36 10 1 34 28 38 31 27 30 20');
+solve(['6', '3 4 1 5 2 6']);
+solve(['10', '36 10 1 34 28 38 31 27 30 20']);
