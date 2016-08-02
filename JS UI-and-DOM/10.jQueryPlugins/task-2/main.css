@@ -1,0 +1,52 @@
+.btn-logo {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+.btn-close {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+.app-container {
+    padding: 5px;
+    position: relative;
+    max-width: 350px;
+    background-color: gray;
+    border-radius: 15px;
+    box-shadow: 10px 10px 5px lightgray;
+}
+#the-canvas {
+    border-radius: 40px;
+    position: relative;
+    left: 69px;
+    top: 35px;
+}
+.results {
+    position: relative;
+    list-style-type: none;
+    top: 25px;
+}
+.results li {
+    display: inline-block;
+    max-width: 120px;
+}
+.results li input {
+    margin-bottom: 15px;
+    width: 100px;
+}
+.show-color {
+    width: 120px;
+    height: 50px;
+    background-color: white;
+}
+.hide {
+    display: none;
+}
+
+#canvas-image-container {
+    display: none;
+}
