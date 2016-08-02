@@ -22,18 +22,18 @@ Create a function that takes a selector and COUNT, then generates inside a UL wi
 function solve() {
   return function (selector, count) {
 
-    if (typeof selector !== 'string') {
+    if (!selector || typeof selector !== 'string') {
       throw new Error("Incorrect selector!");
+    }
+
+    if(+count < 1 || typeof count !== 'number' ) {
+      throw new Error();
     }
     var $container = $(selector),
         $ul = $('<ul />').addClass('items-list');
-
+    
     if($container.length < 1) {
       return;
-    } else if(count < 1) {
-      throw new Error('Count cannot be less tha 1!');
-    } else if(isNaN(count)) {
-      throw new Error("Count must be Number!");
     }
 
     for (var i = 0; i < count; i += 1){
