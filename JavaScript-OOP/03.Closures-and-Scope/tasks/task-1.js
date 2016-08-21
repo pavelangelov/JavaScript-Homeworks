@@ -24,13 +24,52 @@ function solve() {
 	var library = (function () {
 		var books = [];
 		var categories = [];
-		function listBooks() {
-			return books;
+		function listBooks(categotyToList) {
+            if(!categotyToList){
+			    return books;
+            } else {
+                var mathedBooks = [];
+                books.map(function(b) {
+                    if (b.category === categotyToList.category) {
+                        mathedBooks.push(Object.create(b));
+                    }
+                });
+
+                return mathedBooks;
+            }
 		}
 
 		function addBook(book) {
+            if (book.title.length < 2 || book.title.length > 100) {
+                throw new Error('Invalid Book Title!');
+            }
+            if (book.category.length < 2 || book.category.length > 100) {
+                throw new Error('Invalid Book Category!');
+            }
+            if(book.isbn.length < 10 || book.isbn.length > 13) {
+                throw new Error('Invalid ISKB length!');
+            }
+
+            books.map(function(b) {
+                if (b.title === book.title || b.isbn === book.isbn) {
+                    throw new Error('This book is already exist!');
+                }
+            });
+
 			book.ID = books.length + 1;
 			books.push(book);
+
+            var existCategory = false;
+            categories.map(function (c) {
+                if(c === book.category) {
+                    existCategory = true;
+                }
+              });
+
+            if (!existCategory) {
+                categories.push(book.category);
+            }
+            
 			return book;
 		}
 
