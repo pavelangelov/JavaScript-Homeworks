@@ -17,7 +17,78 @@
 */
 function solve() {
 	var Person = (function () {
-		function Person() {
+		function Person(firstName, lastName, age) {
+			var _firstname, _lastname, _age;
+
+			this.firstname = firstName;
+			this.lastname = lastName;
+			this.age = +age;
+
+			function validateName(name) {
+				if (name.length < 3 || name.length > 20) {
+					throw new Error('Invalid name length!');
+				}
+				if (/[!@#$%^&*(0-9).,]/.test(name)) {
+					throw new Error('Name contains invalid symbols!');
+				}
+			}
+
+			function validateAge(number) {
+				if (isNaN(number)) {
+					throw new Error('Invalid age type!');
+				}
+				if (number < 0 || number > 150) {
+					throw new Error('Invalid Age value!');
+				}
+			}
+			
+			Object.defineProperties(Person.prototype, {
+				'firstname': {
+					get: function() {
+						return this._firstName; 
+					},
+					set: function(value) {
+						validateName(value);
+						this._firstName = value;
+					},
+					configurable: true
+				},
+				'lastname': {
+					get: function() {
+						return this._lastName;
+					},
+					set: function(value) {
+						validateName(value);
+						this._lastName = value;
+					},
+					configurable: true
+				},
+				'age': {
+					get: function() {
+						return this._age;
+					},
+					set: function(value) {
+						validateAge(value);
+						this._age = value;
+					},
+					configurable: true
+				},
+				'fullname': {
+					get: function() {
+						return this.firstname + ' ' + this.lastname;
+					},
+					set: function(value) {
+						var names = value.split(' ');
+						this.firstname = names[0];
+						this.lastname = names[1];
+					},
+					configurable: true
+				}
+			});
+
+			Person.prototype.introduce = function() {
+				return 'Hello! My name is ' + this.fullname + ' and I am ' + this.age + '-years-old';
+			};
 		}
 		
 		return Person;
