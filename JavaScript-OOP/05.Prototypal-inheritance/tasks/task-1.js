@@ -111,7 +111,7 @@ function solve() {
 				return this;
 			},
 			get innerHTML() {
-        var html = '<' + this.type;
+				var html = '<' + this.type;
 				if (this.attributes) {
 					html += sortAttributes(this.attributes);
 				}
