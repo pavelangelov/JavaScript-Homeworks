@@ -112,7 +112,7 @@ function solve() {
 			},
       get innerHTML() {
         var html = '<' + this.type;
-				
+
 				if (this.attributes) {
 					html += sortAttributes(this.attributes);
 				}
@@ -120,7 +120,7 @@ function solve() {
 				html += '>';
 
 				if (this.children.length) {
-					this.children.forEach(function(child) {
+					this.children.forEach(function (child) {
 						if (typeof child === 'string') {
 							html += child;
 						} else {
@@ -129,7 +129,7 @@ function solve() {
 					});
 					this.content = '';
 				}
-				
+
 				html += this.content;
 				html += '</' + this.type + '>';
 
