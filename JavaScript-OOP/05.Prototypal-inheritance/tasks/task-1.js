@@ -64,11 +64,11 @@ Outputs:
 function solve() {
 	var domElement = (function () {
 		var domElement = {
-			init: function(type) {
-				if(!type) {
+			init: function (type) {
+				if (!type) {
 					throw new Error('Missing type!');
 				}
-				if(typeof type !== 'string') {
+				if (typeof type !== 'string') {
 					throw new Eror('Invalid type!');
 				}
 				if (/[!@#$%&*-., ]/.test(type)) {
@@ -77,40 +77,61 @@ function solve() {
 
 				this.type = type;
 				this.content = '';
+				this.children = [];
+				this.parent = null;
+
 				return this;
 			},
-			appendChild: function(child) {
+			appendChild: function (child) {
+				this.children.push(child);
+				child.parent = this;
+
+				return this;
 			},
-			addAttribute: function(name, value) {
+			addAttribute: function (name, value) {
 				this.attributes = this.attributes || [];
 				value = value || '';
-				if(!name) {
+				if (!name) {
 					throw new Error('Missing parameters!');
 				}
-				if(/[!@#$%&*., ]/.test(name)) {
+				if (/[!@#$%&*., ]/.test(name)) {
 					throw new Error('Name contains invalid symbols!');
 				}
 
 				this.attributes[name] = value;
 				return this;
 			},
-			removeAttribute: function(attribute) {
-					if (this.attributes[attribute] !== undefined) {
-						delete this.attributes[attribute];
-						isRemoved = true;
+			removeAttribute: function (attribute) {
+				if (this.attributes[attribute] !== undefined) {
+					delete this.attributes[attribute];
 				} else {
 					throw new Error('This attribute don`t exist!');
 				}
+
+				return this;
 			},
-      get innerHTML(){
+      get innerHTML() {
         var html = '<' + this.type;
-				// add 
+				
 				if (this.attributes) {
 					html += sortAttributes(this.attributes);
 				}
+
 				html += '>';
-				// add content
-				html += '</' + this.type +'>';
+
+				if (this.children.length) {
+					this.children.forEach(function(child) {
+						if (typeof child === 'string') {
+							html += child;
+						} else {
+							html += child.innerHTML;
+						}
+					});
+					this.content = '';
+				}
+				
+				html += this.content;
+				html += '</' + this.type + '>';
 
 				return html;
       },
@@ -122,17 +143,17 @@ function solve() {
 			}
 		};
 
-		var sortAttributes = function(attributesArr) {
+		var sortAttributes = function (attributesArr) {
 			var sortedKeys = [];
-			for(var key in attributesArr) {
+			for (var key in attributesArr) {
 				sortedKeys.push(key);
 			}
 
 			sortedKeys.sort();
 			var result = '';
-			for(var i = 0, len = sortedKeys.length; i < len; i += 1) {
+			for (var i = 0, len = sortedKeys.length; i < len; i += 1) {
 				var attr = sortedKeys[i];
-					result += ' ' + attr + '="' + attributesArr[attr] + '"';
+				result += ' ' + attr + '="' + attributesArr[attr] + '"';
 			}
 
 			return result;
@@ -143,10 +164,4 @@ function solve() {
 	return domElement;
 }
 
-// var domElement = solve();
-// var test = Object.create(domElement)
-// 									.init('div')
-// 									.addAttribute('data-id', 'myid');
-// var html = test.innerHTML;
-// console.log(html);
 module.exports = solve;
