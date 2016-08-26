@@ -65,20 +65,88 @@ function solve() {
 	var domElement = (function () {
 		var domElement = {
 			init: function(type) {
+				if(!type) {
+					throw new Error('Missing type!');
+				}
+				if(typeof type !== 'string') {
+					throw new Eror('Invalid type!');
+				}
+				if (/[!@#$%&*-., ]/.test(type)) {
+					throw new Error('Incorect type!');
+				}
+
+				this.type = type;
+				this.content = '';
+				return this;
 			},
 			appendChild: function(child) {
 			},
 			addAttribute: function(name, value) {
+				this.attributes = this.attributes || [];
+				value = value || '';
+				if(!name) {
+					throw new Error('Missing parameters!');
+				}
+				if(/[!@#$%&*., ]/.test(name)) {
+					throw new Error('Name contains invalid symbols!');
+				}
+
+				this.attributes[name] = value;
+				return this;
 			},
 			removeAttribute: function(attribute) {
+					if (this.attributes[attribute] !== undefined) {
+						delete this.attributes[attribute];
+						isRemoved = true;
+				} else {
+					throw new Error('This attribute don`t exist!');
+				}
 			},
       get innerHTML(){
-        
-      }
+        var html = '<' + this.type;
+				// add 
+				if (this.attributes) {
+					html += sortAttributes(this.attributes);
+				}
+				html += '>';
+				// add content
+				html += '</' + this.type +'>';
+
+				return html;
+      },
+			get content() {
+				return this._content;
+			},
+			set content(value) {
+				this._content = value;
+			}
+		};
+
+		var sortAttributes = function(attributesArr) {
+			var sortedKeys = [];
+			for(var key in attributesArr) {
+				sortedKeys.push(key);
+			}
+
+			sortedKeys.sort();
+			var result = '';
+			for(var i = 0, len = sortedKeys.length; i < len; i += 1) {
+				var attr = sortedKeys[i];
+					result += ' ' + attr + '="' + attributesArr[attr] + '"';
+			}
+
+			return result;
+
 		};
 		return domElement;
 	} ());
 	return domElement;
 }
 
+// var domElement = solve();
+// var test = Object.create(domElement)
+// 									.init('div')
+// 									.addAttribute('data-id', 'myid');
+// var html = test.innerHTML;
+// console.log(html);
 module.exports = solve;
