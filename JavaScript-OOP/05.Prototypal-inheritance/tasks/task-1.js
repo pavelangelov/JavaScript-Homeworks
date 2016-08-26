@@ -110,15 +110,13 @@ function solve() {
 
 				return this;
 			},
-      get innerHTML() {
+			get innerHTML() {
         var html = '<' + this.type;
-
 				if (this.attributes) {
 					html += sortAttributes(this.attributes);
 				}
 
 				html += '>';
-
 				if (this.children.length) {
 					this.children.forEach(function (child) {
 						if (typeof child === 'string') {
