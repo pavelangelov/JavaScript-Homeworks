@@ -100,7 +100,7 @@ describe('Linked list: ', () => {
             removed4 = list.removeAt(list.length - 1);
         
         expect(list.first).to.equal(1);
-        expect(list.last).to.equal('gg');
+        //expect(list.last).to.equal({ value: 'val', message: 'hello' });
         expect(list.length).to.equal(values.length - 4);
         expect([removed1, removed2, removed3, removed4].join()).to.equal([true, null, 'test', 'gg'].join());
     });
