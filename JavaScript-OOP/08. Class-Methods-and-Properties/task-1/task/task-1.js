@@ -2,99 +2,222 @@
 
 class listNode {
     constructor(value) {
-        
+        this.value = value;
+        this.next = null;
     }
 }
 
 class LinkedList {
     constructor() {
-        this.listElements = [];
+        this._length = 0;
+        this.head = null;
     }
 
     append(...elements) {
-        elements.forEach(x => this.listElements.push(x));
+        var listLen = this.length,
+            node = new listNode(elements[0]),
+            prevNode;
+
+        if (listLen) {
+            this.lastNode.next = node;
+        } else {
+            this.head = node;
+        }
+
+        this._length += 1;
+        prevNode = node;
+        
+        for(let i = 1, len = elements.length; i < len; i += 1) {
+            node = new listNode(elements[i]);
+            prevNode.next = node;
+            prevNode = node;
+            this._length += 1;
+        }
 
         return this;
     }
 
     prepend(...elements) {
-        for(let i = elements.length - 1; i >= 0; i -= 1) {
-            this.listElements.unshift(elements[i]);
+        var listLen = this.length,
+            node = new listNode(elements[0]),
+            headNode,
+            prevNode;
+        
+        if (listLen) {
+            headNode = this.head;
         }
+
+        this.head = node;
+        prevNode = node;
+        this._length += 1;
+
+        for(let i = 1, len = elements.length; i < len; i += 1) {
+            node = new listNode(elements[i]);
+            prevNode.next = node;
+            prevNode = node;
+            this._length += 1;
+        }
+
+        prevNode.next = headNode;
 
         return this;
     }
 
     insert(...args) {
         var index =  args.shift(0),
-            len = this.listElements.length;
-
+            node = this.head,
+            counter = 0,
+            prevNode,
+            nextNode;
+        
         if (index === 0) {
-            this.listElements.unshift(...args);
-        } else if (index === len - 1) {
-            this.listElements.push(...args);
-        } else {
-            var arr = [];
-            for(let i = 0; i < len; i += 1) {
-                if (i === index) {
-                    arr.push(...args);
-                }
+            return this.prepend(...args);
 
-            arr.push(this.listElements[i]);
+        } else if (index === this.length - 1) {
+            return this.append(...args);
+        }
+
+        while (node !== null) {
+            if (counter === index - 1) {
+                prevNode = node;
+                nextNode = node.next;
+                break;
             }
 
-            this.listElements = arr;
+            node = node.next;
+            counter += 1;
         }
+
+        for(let i = 0, len = args.length; i < len; i += 1) {
+            node = new listNode(args[i]);
+            prevNode.next = node;
+            prevNode = node;
+            this._length += 1;
+        }
+
+        prevNode.next = nextNode;
 
         return this;
     }
 
     removeAt(index) {
-        return this.listElements.splice(index, 1);
+        var node = this.head,
+            nextNode = node.next,
+            counter = 0,
+            prevNode;
+
+        while (node !== null) {
+            if (counter === index) {
+                if (prevNode) {
+                   prevNode.next = nextNode;
+                } else {
+                    this.head = nextNode;
+                }
+
+                this._length -= 1;
+                break;
+            }
+
+            prevNode = node;
+            node = node.next;
+            nextNode = node.next;
+            counter += 1;
+        }
+
+        return node.value;
     }
 
     at(index, value) {
-        if (typeof value === 'undefined') {
-            return this.listElements[index];
-        } else {
-            this.listElements[index] = value;
-            
-            return this;
+        var node = this.head,
+            counter = 0;
+
+        while (node !== null) {
+            if (counter === index) {
+                if (typeof value === 'undefined') {
+                    return node.value;
+                } else {
+                    node.value = value;
+                    return this;
+                }
+            }
+
+            node = node.next;
+            counter += 1;
         }
+
+        
     }
 
     toArray() {
-        return this.listElements.slice(0);
+        var arr = [],
+            node = this.head;
+        
+        while (node !== null) {
+            arr.push(node.value);
+            node = node.next;
+        }
+        
+        return arr;
     }
 
     [Symbol.iterator]() {
-        var index = -1;
-        var data  = this.listElements;
+        var node = this.head;
 
         return {
-            next: () => ({ value: data[++index], done: !(index in data) })
+            next: () => ({ value: node.value, done: !(node.next === null),
+            node: node.next })
         };
     }
 
     get first() {
-        if (this.listElements.length) {
-            return this.listElements[0];
-        }
+        return this.head.value;
     }
 
     get last() {
-        if (this.listElements.length) {
-            var lastElementIndex = this.listElements.length - 1;
-            return this.listElements[lastElementIndex];
+        var node = this.head,
+            lastValue;
+            
+        while (node !== null) {
+            lastValue = node.value;
+            node = node.next;
         }
+
+        return lastValue;
+    }
+
+    get lastNode() {
+        var node = this.head,
+            lastNode;
+            
+        while (node !== null) {
+            lastNode = node;
+            node = node.next;
+        }
+
+        return lastNode;
     }
 
     get length() {
-        return this.listElements.length;
+        return this._length;
     }
 
     toString() {
-        return this.listElements.join(' -> ');
+        var result = '',
+            counter = 0,
+            len = this.length,
+            node = this.head;
+        
+        while (node !== null) {
+            result += node.value;
+            counter++;
+            if (counter < len) {
+                result += ' -> ';
+            }
+
+            node = node.next;
+        }
+
+        return result;
     }
 }
 
