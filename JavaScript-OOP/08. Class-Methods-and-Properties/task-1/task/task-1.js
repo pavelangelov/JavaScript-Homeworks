@@ -72,9 +72,6 @@ class LinkedList {
         
         if (index === 0) {
             return this.prepend(...args);
-
-        } else if (index === this.length - 1) {
-            return this.append(...args);
         }
 
         while (node !== null) {
