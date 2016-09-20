@@ -65,7 +65,10 @@
         messagesContainer = container.find('.panel-body');
     container.attr('data-thread-id', data.result.id);
 
-    function getMsgUI(msg, author, date) {
+    function getMsgUI(message) {
+      let msg = message.content,
+          author = message.username,
+          date = message.postDate;
       let template = $($('#messages-template').text());
       template.find('.message-content').text(msg);
       template.find('.message-creator').text(author || 'anonymous');
@@ -92,6 +95,7 @@
   }
 
   function loadGalleryContent(data) {
+    console.log(data);
     let list = data.data.children,
         containerGallery = $($('#gallery-container-tempalte').text()),
         containerImgs = containerGallery.find('#gallery-imgs'),
@@ -107,6 +111,13 @@
     });
 
     contentContainer.html('').append(containerGallery);
+  }
+
+  function updateThreads(res) {
+    data.threads.get()
+        .then((data) => {
+          loadThreadsContent(data.result);
+        });
   }
 
   navbar.on('click', 'li', (ev) => {
@@ -125,7 +136,7 @@
   contentContainer.on('click', '#btn-add-thread', (ev) => {
     let title = $(ev.target).parents('form').find('input#input-add-thread').val() || null;
     data.threads.add(title)
-        .then(/* add to UI */)
+        .then(updateThreads)
         .then(showMsg('Successfuly added the new thread', 'Success', 'alert-success'))
         .catch((err) => showMsg(JSON.parse(err.responseText).err, 'Error', 'alert-danger'));
   })
@@ -146,7 +157,7 @@
         msg = $container.find('.input-add-message').val();
 
     data.threads.addMessage(thId, msg)
-        .then(/* add to UI */)
+        .then(() => $(`div[data-id ="${thId}"] > div > h3 > a`).trigger('click'))
         .then(showMsg('Successfuly added the new mssagee', 'Success', 'alert-success'))
         .catch((err) => showMsg(JSON.parse(err.responseText).err, 'Error', 'alert-danger'));
   })
