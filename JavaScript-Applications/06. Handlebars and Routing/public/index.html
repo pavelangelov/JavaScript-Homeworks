@@ -160,11 +160,17 @@
   <!-- end templates -->
   <!-- libs -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="../node_modules/sammy/lib/sammy.js"></script>
+  <script src="./node_modules/handlebars/dist/handlebars.js"></script>
 
   <!-- app code -->
-  <script src="./scripts/data.js"></script>
-  <script src="./scripts/main.js"></script>
+  <script src="./node_modules/sammy/lib/sammy.js"></script>
+  <script src="./node_modules/systemjs/dist/system.js"></script> 
+  <script src="./scripts/config.js"></script>
+  <script>
+      System.import('main');
+  </script>
+  <!--<script src="./scripts/data.js"></script>
+  <script src="./scripts/main.js"></script>-->
 
 </body>
 </html>
