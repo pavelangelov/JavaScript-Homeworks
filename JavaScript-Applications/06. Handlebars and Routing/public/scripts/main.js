@@ -1,4 +1,7 @@
-﻿$(() => { // on document ready
+﻿import { data } from './data.js';
+import { sammyApp } from './router.js';
+
+$(() => { // on document ready
   const GLYPH_UP = 'glyphicon-chevron-up',
         GLYPH_DOWN = 'glyphicon-chevron-down',
         root = $('#root'),
@@ -33,32 +36,32 @@
   }
 
   // start threads
-  function loadThreadsContent(threads) {
-    let container = $($('#threads-container-template').text()),
-        threadsContainer = container.find('#threads');
+  // function loadThreadsContent(threads) {
+  //   let container = $($('#threads-container-template').text()),
+  //       threadsContainer = container.find('#threads');
 
-    function getThreadUI(title, id, creator, date) {
-      let template = $($('#thread-template').text()).attr('data-id', id),
-          threadTitle = template.find('.thread-title').text(title),
-          threadCreator = template.find('.thread-creator').text(creator || 'anonymous'),
-          threadDate = template.find('.thread-date').text(date || 'unknown');
+  //   function getThreadUI(title, id, creator, date) {
+  //     let template = $($('#thread-template').text()).attr('data-id', id),
+  //         threadTitle = template.find('.thread-title').text(title),
+  //         threadCreator = template.find('.thread-creator').text(creator || 'anonymous'),
+  //         threadDate = template.find('.thread-date').text(date || 'unknown');
 
-      return template.clone(true);
-    }
-    function getAddNewThreadUI() {
-      let template = $($('#thread-new-template').html());
-      return template.clone(true);
-    }
+  //     return template.clone(true);
+  //   }
+  //   function getAddNewThreadUI() {
+  //     let template = $($('#thread-new-template').html());
+  //     return template.clone(true);
+  //   }
 
-    threads.forEach((th) => {
-      let currentThreadUI = getThreadUI(th.title, th.id, th.username, th.date);
-      threadsContainer.append(currentThreadUI);
-    })
-    threadsContainer.append(getAddNewThreadUI());
+  //   threads.forEach((th) => {
+  //     let currentThreadUI = getThreadUI(th.title, th.id, th.username, th.date);
+  //     threadsContainer.append(currentThreadUI);
+  //   })
+  //   threadsContainer.append(getAddNewThreadUI());
 
-    contentContainer.find('#container-thraeds').remove();
-    contentContainer.html('').prepend(container);
-  }
+  //   contentContainer.find('#container-thraeds').remove();
+  //   contentContainer.html('').prepend(container);
+  // }
 
   function loadMessagesContent(data) {
     let container = $($('#messages-container-template').text()),
@@ -115,29 +118,31 @@
     $target.parents('li').addClass('active');
   });
 
-  navbar.on('click', '#btn-threads', (ev) => {
-    data.threads.get()
-        .then((data) => {
-          loadThreadsContent(data.result)
-        })
-  });
+  // navbar.on('click', '#btn-threads', (ev) => {
+  //   data.threads.get()
+  //       .then((data) => {
+  //         loadThreadsContent(data.result)
+  //       })
+  // });
 
-  contentContainer.on('click', '#btn-add-thread', (ev) => {
-    let title = $(ev.target).parents('form').find('input#input-add-thread').val() || null;
-    data.threads.add(title)
-        .then(/* add to UI */)
-        .then(showMsg('Successfuly added the new thread', 'Success', 'alert-success'))
-        .catch((err) => showMsg(JSON.parse(err.responseText).err, 'Error', 'alert-danger'));
-  })
+  // contentContainer.on('click', '#btn-add-thread', (ev) => {
+  //   console.log(ev);
+  //   console.log(this);
+  //   // let title = $(ev.target).parents('form').find('input#input-add-thread').val() || null;
+  //   // data.threads.add(title)
+  //   //     .then(/* add to UI */)
+  //   //     .then(showMsg('Successfuly added the new thread', 'Success', 'alert-success'))
+  //   //     .catch((err) => showMsg(JSON.parse(err.responseText).err, 'Error', 'alert-danger'));
+  // })
 
-  contentContainer.on('click', 'a.thread-title', (ev) => {
-    let $target = $(ev.target),
-        threadId = $target.parents('.thread').attr('data-id');
+  // contentContainer.on('click', 'a.thread-title', (ev) => {
+  //   let $target = $(ev.target),
+  //       threadId = $target.parents('.thread').attr('data-id');
 
-    data.threads.getById(threadId)
-      .then(loadMessagesContent)
-      .catch((err) => showMsg(err, 'Error', 'alert-danger'))
-  })
+  //   data.threads.getById(threadId)
+  //     .then(loadMessagesContent)
+  //     .catch((err) => showMsg(err, 'Error', 'alert-danger'))
+  // })
 
   contentContainer.on('click', '.btn-add-message', (ev) => {
     let $target = $(ev.target),
