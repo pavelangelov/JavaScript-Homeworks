@@ -1,5 +1,5 @@
-<div class="container-messages col-xs-8">
-    <div class="panel panel-default">
+
+    <div class="panel panel-default"  data-thread-id="{{id}}">
       <div class="panel-heading">
         <h3 class="panel-title">
           Messages for <strong class="thread-title">{{title}}</strong>
@@ -8,17 +8,28 @@
         </h3>
       </div>
       <div class="messages panel-body">
-          {{#each messages}}
-            <div class="message">
-                <div>
-                    <p class="message-content">{{content}}</p>
-                    <p>
-                    <span>Created on </span><span class="message-date">{{postDate}}</span>
-                    by <a class="message-creator" href="#">{{username}}</a>
-                    </p>
+          {{#if messages}}
+            {{#each messages}}
+                <div class="message">
+                    <div>
+                        <p class="message-content">{{content}}</p>
+                        <p>
+                        <span>Created on </span><span class="message-date">{{postDate}}</span>
+                        by <a class="message-creator" href="#">
+                            {{#if username}}
+                                {{username}}
+                            {{else}}
+                                anonymous
+                            {{/if}}</a>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            {{/each}}
+                {{/each}}
+            {{else}}
+                <div class="message">
+                    <p class="message-content">No messages</p>
+                </div>
+            {{/if}}
       </div>
         <form class="" role="search">
             <div class="input-group">
@@ -29,4 +40,3 @@
             </div>
         </form>
     </div>
-</div>

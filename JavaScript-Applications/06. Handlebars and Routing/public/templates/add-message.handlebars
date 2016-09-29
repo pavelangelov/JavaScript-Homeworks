@@ -1,0 +1,11 @@
+{{#each messages}}
+                <div class="message">
+                    <div>
+                        <p class="message-content">{{content}}</p>
+                        <p>
+                        <span>Created on </span><span class="message-date">{{postDate}}</span>
+                        by <a class="message-creator" href="#">{{username}}</a>
+                        </p>
+                    </div>
+                </div>
+                {{/each}}
